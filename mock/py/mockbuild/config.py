@@ -27,7 +27,7 @@ from .uid import getresuid, getresgid
 from .util import set_use_nspawn, setup_operations_timeout
 
 PLUGIN_LIST = ['tmpfs', 'root_cache', 'yum_cache', 'mount', 'bind_mount',
-               'ccache', 'selinux', 'package_state', 'chroot_scan',
+               'ccache', 'sccache', 'selinux', 'package_state', 'chroot_scan',
                'lvm_root', 'compress_logs', 'sign', 'pm_request',
                'hw_info', 'procenv', 'showrc', 'rpkg_preprocessor',
                'rpmautospec']
@@ -127,6 +127,11 @@ def setup_default_config_opts():
             'max_cache_size': "4G",
             'compress': None,
             'dir': "{{cache_topdir}}/{{root}}/ccache/u{{chrootuid}}/"},
+        'sccache_enable': False,
+        'sccache_opts': {
+            'max_cache_size': "4G",
+            'compress': None,
+            'dir': "{{cache_topdir}}/{{root}}/sccache/u{{chrootuid}}/"},
         'yum_cache_enable': True,
         'yum_cache_opts': {
             'max_age_days': 30,
@@ -139,8 +144,8 @@ def setup_default_config_opts():
             'dir': "{{cache_topdir}}/{{root}}/root_cache/",
             'compress_program': 'pigz',
             'decompress_program': None,
-            'exclude_dirs': ["./proc", "./sys", "./dev", "./tmp/ccache", "./var/cache/yum", "./var/cache/dnf",
-                             "./var/log"],
+            'exclude_dirs': ["./proc", "./sys", "./dev", "./tmp/ccache", "./tmp/sccache",
+                             "./var/cache/yum", "./var/cache/dnf", "./var/log"],
             'extension': '.gz'},
         'bind_mount_enable': True,
         'bind_mount_opts': {
